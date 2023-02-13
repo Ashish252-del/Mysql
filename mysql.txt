@@ -1,0 +1,571 @@
+install xammm for windows 
+start mysql and apache(php server)
+
+connect mysql
+go inside bin folder of xamm (inside mysql) and opnen terminal
+
+to connect: mysql -u root -h localhost
+
+In browser url : http://localhost/phpmyadmin/
+this will open phpmyadmin
+
+1. To show databases
+show databases;
+2. To create database 
+create database youtubestu;
+youtubestu is name of database
+
+3. To delete database
+ drop database ashish;
+
+4. To use a database
+use youtubestu;
+
+5. To check your current database
+ select database();
+  
+
+                   Data type in mysql
+Numeric             String                        Data Types
+
+
+                    Creating Tables using cmd and phpmyadmin
+
+     create table tablename (
+        column_name   datatype,
+        column_name   datatype
+     )
+
+for ex -  create table students
+     (
+     name varchar(55),
+     age int );
+
+6. To show tables inside a database
+show tables;
+
+7. To describe a Table 
+desc tablename;
+exp:- desc students;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| name  | varchar(55) | YES  |     | NULL    |       |
+| age   | int(11)     | YES  |     | NULL    |       |
+| id    | int(11)     | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+8. To delete table
+drop table tablename;
+
+9. To add a column in existing table
+alter table yourTableName
+add column yourColumnName1 dataType,
+add column yourColumnName2 dataType,
+.
+.
+add column yourColumnNameN dataType;
+
+exp:- alter table students
+     add column id int;
+
+9.     How to insert a data in a table
+   M1:
+insert into table_name(column1, column2, column3.......)
+              values (value1, value2, value3.....)
+
+for exp:- 
+ insert into students
+     (id, name, age)
+    values (1, 'Ashish', 18);
+
+M2: in this case you have to give value in order
+insert into table_name 
+values (value1, value2, value3),
+       (value1.1, value2.1, value3.1);
+
+10.      Show data of table
+
+select * From table_name;
+exp:-  select * From students;
+
+11. for showing warnings 
+ show warnings;
+
+ 12.     Null vs Not null 
+ null means the value is not known
+ for exp:- you have made a table in which you made multiple columns(fields) now if you 
+ have made a field then you have to fill that in case you do not fill that then that will filled by null
+ which meaning is not known which is not good practice 
+
+                 To over come this we made not null fields and give them some defalut values 
+                 if you do not give defalut value then my sql give his own for exp for int type 0
+
+ a> making a table with not null fields
+    create table stunull 
+    ( id int not null),
+    (name varchar(55) not null);
+     
+   check table :- desc stunull;
+   +-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | NO   |     | NULL    |       |
+| name  | varchar(55) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+ here null is no because we are using not null
+    inserting data :-
+     insert into stunull
+     (name)
+     values('patel');
+ Now see the table content
+ select * from stunull;
++----+-------+
+| id | name  |
++----+-------+
+|  0 | patel |
++----+-------+
+
+here since we have not given the id and it is not null type hence defalut value of id by mysql is 0
+
+b> my our own default value
+ create table table_name (
+    column1 dataType not null defalut value,
+    column2 dataType not null defalut value;
+ )
+
+     create table studef
+     ( score int not null default 0,
+     name varchar(55) not null default 'undefined'
+     );
+
+     Check:- 
+      desc studef;
++-------+-------------+------+-----+-----------+-------+
+| Field | Type        | Null | Key | Default   | Extra |
++-------+-------------+------+-----+-----------+-------+
+| score | int(11)     | NO   |     | 0         |       |
+| name  | varchar(55) | NO   |     | undefined |       |
++-------+-------------+------+-----+-----------+-------+
+here default value is set by us 
+
+intering data:-
+insert into studef () values();
+here we not giving value to any field lets see what happens
+select * from studef;
++-------+-----------+
+| score | name      |
++-------+-----------+
+|     0 | undefined |
++-------+-----------+
+
+taken default value set by us 
+
+13.  To delete a column from a table 
+   alter table_name drop column column_name;
+
+14.    Primary Key in Table 
+     The primary key contrains uniquely identify each record in a table;
+     Primary keys must contain unique values and cannot contains null values 
+    
+    create table stud_unique
+    (
+        stud_id int not null ,
+        name varchar (55),
+        age int,
+        PRIMARY KEY (stud_id)
+    );
+  here we are making stud_id PRIMARY KEY so this should have unique value
+
+  now check :-  desc stud_unique;
+  +---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| stud_id | int(11)     | NO   | PRI | NULL    |       |
+| name    | varchar(55) | YES  |     | NULL    |       |
+| age     | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+now we have to give unique value of primary key every time which a problem for ourself 
+so need to auto increment uniqueue key 
+
+15.                                 AUTO_INCREMENT IN Table
+ Auto-increment allows unique number to be generated automatically when a new record is inserted into table.
+ 
+    create table stud_auto
+    (
+        stud_id int not null AUTO_INCREMENT,
+        name varchar (55),
+        age int,
+        PRIMARY KEY (stud_id)
+    );
+now check:-
+ desc stud_auto;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| stud_id | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name    | varchar(55) | YES  |     | NULL    |                |
+| age     | int(11)     | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+ now inset data :even if we do not give value to primary key then that will be increse by itself
+insert data:- 
+insert into stud_auto 
+(name,age)
+values('Ashish',18), 
+('Manish',18), ('Tanish',18);
+
+now check data :-
+select * from stud_auto; 
++---------+--------+------+
+| stud_id | name   | age  |
++---------+--------+------+
+|       1 | Ashish |   18 |
+|       2 | Manish |   18 |
+|       3 | Tanish |   18 |
++---------+--------+------+
+
+  16.                                      Finally CRUD operation 
+                         Create 
+
+create table students (
+     id int not null auto_increment, fname varchar(55), lname varchar(55),
+     age int , primary key(id) );
+ desc students ;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| fname | varchar(55) | YES  |     | NULL    |                |
+| lname | varchar(55) | YES  |     | NULL    |                |
+| age   | int(11)     | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+
+insert data:-
+ insert into students (fname,lname,age)
+    values ('Ashish','Patel',21), ('Saurabh','Patel',11), ('Manish','Patel',18),
+     ('Abhay', 'Verma', 25);
+
+select * from students;
++----+---------+-------+------+
+| id | fname   | lname | age  |
++----+---------+-------+------+
+|  1 | Ashish  | Patel |   21 |
+|  2 | Saurabh | Patel |   11 |
+|  3 | Manish  | Patel |   18 |
+|  4 | Abhay   | Verma |   25 |
++----+---------+-------+------+
+                                 
+                                 Read operation
+
+for exp:- give me data of all those students having age greater than 15
+note:- * means every column
+select * from students where age > 15;
++----+--------+-------+------+
+| id | fname  | lname | age  |
++----+--------+-------+------+
+|  1 | Ashish | Patel |   21 |
+|  3 | Manish | Patel |   18 |
+|  4 | Abhay  | Verma |   25 |
++----+--------+-------+------+
+
+incase we need only few column data 
+select fname,lname from students where age > 15;
++--------+-------+
+| fname  | lname |
++--------+-------+
+| Ashish | Patel |
+| Manish | Patel |
+| Abhay  | Verma |
++--------+-------+
+                       
+                       Update operation
+Update students set age = 50
+where fname = 'Abhay';
+
+select * from students;
++----+---------+-------+------+
+| id | fname   | lname | age  |
++----+---------+-------+------+
+|  1 | Ashish  | Patel |   21 |
+|  2 | Saurabh | Patel |   11 |
+|  3 | Manish  | Patel |   18 |
+|  4 | Abhay   | Verma |   50 |
++----+---------+-------+------+
+
+                      Delete operation
+delete from students where fname = 'Saurabh';
+select * from students;
++----+--------+-------+------+
+| id | fname  | lname | age  |
++----+--------+-------+------+
+|  1 | Ashish | Patel |   21 |
+|  3 | Manish | Patel |   18 |
+|  4 | Abhay  | Verma |   50 |
++----+--------+-------+------+
+
+17. mysql select distinct statement 
+The select distinct statement is used to return only distinct(different) values;
+select distinct column1,column2, ..... from table_name;
+for exp:- we are having to fname with Ashish but we want only distinct fname
+
+ insert into students (fname,lname,age)
+     values ('Ashish','Singh',25);
+
+select fname from students;
++--------+
+| fname  |
++--------+
+| Ashish |
+| Manish |
+| Abhay  |
+| Ashish |
++--------+
+here Ashish two times now for distinct 
+select distinct fname from students;
++--------+
+| fname  |
++--------+
+| Ashish |
+| Manish |
+| Abhay  |
++--------+
+
+Note:- you can use distinct with only one uniques field
+
+18.     Order by 
+order by keyword is used to sort the result-set in ascending or descending order
+select age from students order by age;
++------+
+| age  |
++------+
+|   18 |
+|   21 |
+|   25 |
+|   50 |
++------+
+select * from students order by age;
++----+--------+-------+------+
+| id | fname  | lname | age  |
++----+--------+-------+------+
+|  3 | Manish | Patel |   18 |
+|  1 | Ashish | Patel |   21 |
+|  5 | Ashish | Singh |   25 |
+|  4 | Abhay  | Verma |   50 |
++----+--------+-------+------+
+
+for descending order:-
+select * from students order by age desc;
+even:- Strings can also be arranged in order
+
+18. mysql limit keyword
+select * from students limit 2;
++----+--------+-------+------+
+| id | fname  | lname | age  |
++----+--------+-------+------+
+|  1 | Ashish | Patel |   21 |
+|  3 | Manish | Patel |   18 |
++----+--------+-------+------+
+will give only two starting ;
+
+select fname from students order by age limit 2;
++--------+
+| fname  |
++--------+
+| Manish |
+| Ashish |
++--------+
+
+19.                   mysql Like operator 
+The like operator is used in a where clause to search for a specified pattern in a column 
+Select fname from students where fname like 'M%';
++--------+
+| fname  |
++--------+
+| Manish |
++--------+
+it gives the all fname having M
+
+20.                  mysql aggregate functions 
+count() :- return the number of rows that matches a specified criteria.
+avg() :- return the aveg vakue of numeric columns 
+sum() :- reuturn the total sum of numeric column 
+max()
+min()
+
+select max(age) from students;
++----------+
+| max(age) |
++----------+
+|       50 |
++----------+
+
+similarly for min age
+
+select sum(age) from students;
++----------+
+| sum(age) |
++----------+
+|      114 |
++----------+
+giving the sum of ages 
+
+select avg(age) from students;
++----------+
+| avg(age) |
++----------+
+|  28.5000 |
++----------+
+giving the avg of ages
+
+select count(id) from students;
++-----------+
+| count(id) |
++-----------+
+|         4 |
++-----------+
+total 4 id presents 
+
+20.                     Logical operators 
+select * from students where age = 21; 
+select * from students where age > 21;
+select * from students where age >= 21;
+select * from students where age < 21;
+select * from students where age <= 21;
+select * from students where age <= 21 && age>=18;
+above commonds are very common so can see output on cmd
+select * from students where age between 21 and 25;
++----+--------+-------+------+
+| id | fname  | lname | age  |
++----+--------+-------+------+
+|  1 | Ashish | Patel |   21 |
+|  5 | Ashish | Singh |   25 |
++----+--------+-------+------+
+
+select * from students where fname = "Ashish" || fname = "Manish"; 
++----+--------+-------+------+
+| id | fname  | lname | age  |
++----+--------+-------+------+
+|  1 | Ashish | Patel |   21 |
+|  3 | Manish | Patel |   18 |
+|  5 | Ashish | Singh |   25 |
++----+--------+-------+------+
+
+21.    Mysql concat function
+concat (expression1, expression2, expression3);
+for exp:- select concat ('Ashish', 'Patel');
++----------------------------+
+| concat ('Ashish', 'Patel') |
++----------------------------+
+| AshishPatel                |
++----------------------------+
+
+select concat ('Ashish', ' ', 'Patel');
++---------------------------------+
+| concat ('Ashish', ' ', 'Patel') |
++---------------------------------+
+| Ashish Patel                    |
++---------------------------------+
+
+select concat ('Ashish', ' ', 'Patel') as fullname;
++--------------+
+| fullname     |
++--------------+
+| Ashish Patel |
++--------------+
+
+for showing all data as full name
+select concat (fname, ' ', lname) as fullname;
++----------------------------+
+| concat (fname, ' ', lname) |
++----------------------------+
+| Ashish Patel               |
+| Manish Patel               |
+| Abhay Verma                |
+| Ashish Singh               |
++----------------------------+
+
+select * from students;
++----+--------+-------+------+
+| id | fname  | lname | age  |
++----+--------+-------+------+
+|  1 | Ashish | Patel |   21 |
+|  3 | Manish | Patel |   18 |
+|  4 | Abhay  | Verma |   50 |
+|  5 | Ashish | Singh |   25 |
++----+--------+-------+------+
+
+22. mysql reverse function 
+select reverse ('thapa');
+apaht
+To make a palindrom :- select concat ('thapa', reverse('thapa'));
+23. select char_length('A');
+1
+24. select lower('ASH');
+ash
+25. select upper('ashish');
+ASHISH
+
+26.                           Mysql date time Data types 
+Mysql comes with the following data types for sorting a date or a date/time value in the database;
+
+Date-Format: YYYY-MM-DD 
+TIME-FORMAT: HH:MI:SS
+Datetime-format:- YYYY-MM-DD HH:MI:SS 
+create table datestu (
+     name varchar(55),
+     dob date,
+     dot time,
+     bt datetime);
+
+    insert into datestu values ('vinod', '2001-9-02' , '05:05:05' , '2001-09-02 05:05:05' );
+    +-------+------------+----------+---------------------+
+| name  | dob        | dot      | bt                  |
++-------+------------+----------+---------------------+
+| vinod | 2001-09-02 | 05:05:05 | 2001-09-02 05:05:05 |
++-------+------------+----------+---------------------+
+
+                            Mysql Date Time Data types with some predefine functions
+MySQL comes with the following data types for storing a date or date/time values in the database;
+         CURDATE() - GIVES THE CURRENT DATE: YYYY-MM-DD
+         NOW() - GIVES BOTH CUR DATE AND TIME:
+                  YYYY-MM-DD HH:MI:SS
+         CURTIME() - GIVES CURRENT TIME: HH:MI:SS
+
+ insert into datestu (name,dob,dot,bt) values ('Ashish',CURDATE(),NOW(),CURTIME());
+  select * from datestu;
++--------+------------+----------+---------------------+
+| name   | dob        | dot      | bt                  |
++--------+------------+----------+---------------------+
+| vinod  | 2001-09-02 | 05:05:05 | 2001-09-02 05:05:05 |
+| Ashish | 2023-01-26 | 01:57:27 | 2023-01-26 01:57:27 |
++--------+------------+----------+---------------------+
+
+                                    MySQL Foreign key constraint
+               A foregien key is a key used to link two tables togather.
+               A foregien key is a field (or collection of fields ) in one table that refers to the PRIMARY KEY in another table.
+create table customers (cid int not null auto_increment 
+primary key, cname varchar(55), email varchar(100) );
+ desc customers;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| cid   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| cname | varchar(55)  | YES  |     | NULL    |                |
+| email | varchar(100) | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+
+create table orders (oid int not null auto_increment primary key, orderdate date, cid int, foreign key(cid) references customers(cid));
+desc orders;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| oid       | int(11) | NO   | PRI | NULL    | auto_increment |
+| orderdate | date    | YES  |     | NULL    |                |
+| cid       | int(11) | YES  | MUL | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+Now we have made foreign key its time to relation between them 
+
+
+
+
